@@ -1,0 +1,10 @@
+bin/
+.idea/
+obj/
+/packages/
+.vs/
+**/*.json
+*.user
+
+*.DotSettings
+**/.DS_Store
