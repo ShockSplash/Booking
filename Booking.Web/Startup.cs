@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Booking.DataLayer.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Booking.Web.Data;
 using FluentValidation;
+using MatBlazor;
 using MediatR;
 
 namespace Booking.Web
@@ -27,11 +21,12 @@ namespace Booking.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMatBlazor();
+            
             services.AddBookingDbContext(Configuration);
             services.AddValidatorsFromAssemblyContaining(typeof(Startup));
             services.AddMediatR(typeof(Startup));
-            
-            
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();

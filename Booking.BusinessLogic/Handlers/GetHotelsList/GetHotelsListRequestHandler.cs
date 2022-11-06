@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace Booking.BussinesLogic.Handlers.GetHotelsList
 
         public async Task<List<GetHotelsListResponse>> Handle(GetHotelsListRequest request, CancellationToken cancellationToken)
         {
+            var s = 5;
+            Console.WriteLine("Dbug");
+            
             return null!;
         }
     }

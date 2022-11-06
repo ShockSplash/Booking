@@ -6,12 +6,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Booking.BusinessLogic\Booking.BusinessLogic.csproj" />
-      <ProjectReference Include="..\Booking.DataLayer\Booking.DataLayer.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Blazorise" Version="1.1.2" />
-      <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5" />
+      <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     </ItemGroup>
 
 </Project>

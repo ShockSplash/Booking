@@ -16,7 +16,7 @@ namespace Booking.DataLayer.Extensions
             return services;
         }
         
-        private static string BuildConnectionString(IConfiguration configuration)
+        public static string BuildConnectionString(IConfiguration configuration)
         {
             return configuration
                 .GetSection(nameof(NpgsqlConnection))

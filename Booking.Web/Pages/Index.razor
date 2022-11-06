@@ -1,7 +1,80 @@
 ﻿@page "/"
+@using Booking.BussinesLogic.Handlers.GetHotelsList
+@using System.ComponentModel.DataAnnotations
+@using System.Threading
+@using Booking.DataLayer
+@using Booking.DataLayer.Entities
+@using Booking.DataLayer.Extensions
+@using Microsoft.EntityFrameworkCore
 
-<h1>Hello, world!</h1>
+@inject MediatR.IMediator _mediator;
+@inject BookingDbContext _dbContext;
 
-Welcome to your new app.
+<h1>Приветствуем вас на сайте по подбору отелей</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+<h3>Подберите отель по вашему вкусу и кошельку</h3>
+
+<EditForm Model="typeof(GetHotelsListRequest)" OnValidSubmit="SendForm">
+
+    <div class="mat-layout-grid">
+        <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
+
+            <span>Дата заезда</span>
+            <p>
+                <MatDatePicker @bind-Value="@StartDate" Format="MMMM dd, yyyy"></MatDatePicker>
+            </p>
+            <br>
+
+            <span>Дата выезда</span>
+            <p>
+                <MatDatePicker @bind-Value="@EndDate" Format="MMMM dd, yyyy"></MatDatePicker>
+            </p>
+            <br>
+            Город
+                    <p>
+                        <MatSelectItem @bind-Value="@City" Items="@citiesList"></MatSelectItem>
+                    </p>
+        </div>
+        
+          <MatButton Raised="true">Отправить</MatButton>
+    </div>
+
+</EditForm>
+
+@code
+{
+    [Required]
+    private string City { get; set; }
+    
+    [Required]
+    private DateTime StartDate { get; set; } = DateTime.Now;
+
+    [Required]
+    private DateTime EndDate { get; set; } = DateTime.Now;
+
+    private List<string> citiesList;
+
+    private void SendForm()
+    {
+        var request = new GetHotelsListRequest()
+        {
+            City = City,
+            EndDate = new DateTimeOffset(EndDate,
+                TimeSpan.Zero),
+            StartDate =  new DateTimeOffset(EndDate,
+                TimeSpan.Zero),
+            Seats = 4,
+            Type = RoomType.Comfort
+        };
+
+        _mediator.Send(request, CancellationToken.None);
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        citiesList = await _dbContext.Cities
+            .OnlyActive()
+            .Select(x => x.Name)
+            .ToListAsync();
+    }
+}
