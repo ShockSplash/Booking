@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Booking.BusinessLogic\Booking.BusinessLogic.csproj" />
+      <ProjectReference Include="..\Booking.DataLayer\Booking.DataLayer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Blazorise" Version="1.1.2" />
+      <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.5" />
+    </ItemGroup>
+
+</Project>

@@ -8,5 +8,11 @@ namespace Booking.Views.Booking
         {
             
         }
+        
+        public void OnPost()
+        {
+            var emailAddress = Request.Form["emailaddress"];
+            // do something with emailAddress
+        }
     }
 }
