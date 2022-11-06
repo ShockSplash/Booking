@@ -2,6 +2,7 @@ using Booking.DataLayer.Entities;
 using Booking.DataLayer.Entities.City;
 using Booking.DataLayer.Entities.CityEntity;
 using Booking.DataLayer.Entities.User;
+using Booking.DataLayer.Extensions;
 using Booking.DataLayer.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -52,7 +53,7 @@ namespace Booking.DataLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.ConnectionName));
+            optionsBuilder.UseNpgsql(DataLayerExtensions.BuildConnectionString(_configuration));
             
             base.OnConfiguring(optionsBuilder);
         }

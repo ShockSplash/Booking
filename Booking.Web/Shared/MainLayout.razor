@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <MatButton Link="https://github.com/ShockSplash">
+                <i class="fa fa-github" Icon="favorite"  aria-hidden="true"></i> &nbsp; Github
+            </MatButton>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>

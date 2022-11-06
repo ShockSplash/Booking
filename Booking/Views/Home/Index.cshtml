@@ -1,5 +1,6 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model  Booking.DataLayer.Entities.Hotel
+@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Booking.Views.Home.IndexModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -8,12 +9,17 @@
 <div class="text-center animate__animated animate__flipInX">
     <h1 id="home" class="display-4">Booking</h1>
     <p id="home_p">Find hotel for your soul.</p>
-        <form asp-controller="Booking" asp-action="Index" method="post" >
-            <label>Hotel:</label>
-            <input type="text" name="city" asp-route="city" placeholder="city">
-            <input type="date" name="beginDate" asp-route="beginDate" value="2000-1-1">
-            <input type="date" name="endDate" asp-route="endDate">
-            <input type="number" name="seats" asp-route="seats" placeholder="seats" min="1">
-            <input type="submit" class="btn btn-primary" value="Search">
-        </form>
+    <form method="post">
+        <label>Отель:</label>
+        <input type="date" name="beginDate" value="2000-1-1">
+        <input type="date" name="endDate" >
+        <input type="number" name="seats" placeholder="seats" min="1">
+        <input type="number" name="seats" placeholder="seats" min="1">
+        <input type="submit" class="btn btn-primary" value="Search">
+    </form>
 </div>
+
+<form method="post" >
+    <input type="text" name="username" />
+    <input type="submit" value="Отправить" />
+</form>

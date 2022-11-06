@@ -1,13 +1,14 @@
 using Booking.DataLayer.Extensions;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Booking.Web.Data;
+using FluentValidation;
+using MatBlazor;
+using MediatR;
 
-namespace Booking
+namespace Booking.Web
 {
     public class Startup
     {
@@ -20,42 +21,31 @@ namespace Booking
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
+            services.AddMatBlazor();
+            
             services.AddBookingDbContext(Configuration);
-
-            
-            
             services.AddValidatorsFromAssemblyContaining(typeof(Startup));
             services.AddMediatR(typeof(Startup));
 
-            // services.RegisterAllHandlersPipeline();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddSingleton<WeatherForecastService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
+                
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }
