@@ -33,15 +33,15 @@ else
     <div>
         <input type="button" class="btn-lg btn" id="prev" @onclick="PrevPage" value="Previous"/>
 
-        @for (int i = CurPage - 2; i <= CurPage; i++)
+        @for (int i = CurPage - 2; i <= CurPage + 1; i++)
         {
             int j = i - 1;
             @if (i > 0)
             {
-                var hotelsCount = await GetHotels(hotelsPerPage, j * hotelsPerPage);
-                
-                if (hotelsCount.Count <= 0)
-                    return;
+                if (j * hotelsPerPage > TotalCount)
+                {
+                    continue;
+                }
                 
                 if (i == CurPage)
                 {
@@ -80,6 +80,9 @@ else
     protected override async Task OnInitializedAsync()
     {
         hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
+        TotalCount = await _dbContext.Hotels.
+            OnlyActive()
+            .CountAsync();
     }
     
     protected async Task PrevPage()
@@ -93,7 +96,7 @@ else
 
     private async Task<List<Hotel>> GetHotels(int limit, int offset)
     {
-        return await _dbContext.Hotels
+         return await _dbContext.Hotels
             .OnlyActive()
             .Skip(offset)
             .Take(limit)
