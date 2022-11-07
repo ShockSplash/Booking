@@ -5,20 +5,22 @@
 @using Booking.DataLayer
 @using Booking.DataLayer.Entities
 @using Booking.DataLayer.Extensions
+@using MediatR
 @using Microsoft.EntityFrameworkCore
 
-@inject MediatR.IMediator _mediator;
+@inject IMediator _mediator;
 @inject BookingDbContext _dbContext;
+@inject NavigationManager _navigationManager;
 
 <h1>Приветствуем вас на сайте по подбору отелей</h1>
 
 <h3>Подберите отель по вашему вкусу и кошельку</h3>
 
 <EditForm Model="typeof(GetHotelsListRequest)" OnValidSubmit="SendForm">
-
     <div class="mat-layout-grid">
         <div class="mat-layout-grid-cell mat-layout-grid-cell-span-4">
-
+            <FluentValidator TValidator="GetHotelsListRequestValidator" />
+            <DataAnnotationsValidator/>
             <span>Дата заезда</span>
             <p>
                 <MatDatePicker @bind-Value="@StartDate" Format="MMMM dd, yyyy"></MatDatePicker>
@@ -43,6 +45,8 @@
 
 @code
 {
+    private readonly List<Hotel> _hotels;
+
     [Required]
     private string City { get; set; }
     
@@ -59,15 +63,15 @@
         var request = new GetHotelsListRequest()
         {
             City = City,
-            EndDate = new DateTimeOffset(EndDate,
-                TimeSpan.Zero),
-            StartDate =  new DateTimeOffset(EndDate,
-                TimeSpan.Zero),
+            EndDate = EndDate,
+            StartDate =  StartDate,
             Seats = 4,
             Type = RoomType.Comfort
         };
 
         _mediator.Send(request, CancellationToken.None);
+        
+        _navigationManager.NavigateTo("hotels");
     }
     
     protected override async Task OnInitializedAsync()

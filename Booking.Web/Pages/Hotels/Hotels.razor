@@ -1,0 +1,103 @@
+@page "/hotels"
+@using Booking.DataLayer.Entities
+@using Booking.DataLayer
+@using Booking.DataLayer.Extensions
+@using Microsoft.EntityFrameworkCore
+
+@inject BookingDbContext _dbContext;
+
+<h3>@startText</h3>
+
+@if (hotels == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var hotel in hotels)
+        {
+            <tr>
+                <td>@hotel.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <div>
+        <input type="button" class="btn-lg btn" id="prev" @onclick="PrevPage" value="Previous"/>
+
+        @for (int i = CurPage - 2; i <= CurPage; i++)
+        {
+            int j = i - 1;
+            @if (i > 0)
+            {
+                var hotelsCount = await GetHotels(hotelsPerPage, j * hotelsPerPage);
+                
+                if (hotelsCount.Count <= 0)
+                    return;
+                
+                if (i == CurPage)
+                {
+                    <span class="px-2" style="font-weight:bold;cursor:pointer" @onclick="() => GetHotels(hotelsPerPage, j * hotelsPerPage)">@i</span>
+                }
+                else
+                {
+                    <span class="px-2" style="cursor:pointer" @onclick="() => GetHotels(hotelsPerPage, j * hotelsPerPage)">@i</span>
+                }
+            }
+
+        }
+        <input type="button" class="btn-lg btn" id="next" @onclick="NextPage" value="Next"/>
+    </div>
+}
+@code {
+    private int TotalCount = 0;
+    
+    private int CurPage = 1;
+    
+    private const int hotelsPerPage = 5;
+    
+    private List<Hotel> hotels = null!;
+
+    private string startText = "Все наши отели";
+    
+    protected async Task NextPage()
+    {
+        if (hotels.Count == 0)
+            return;
+        
+        CurPage++;
+        hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
+    }
+    
+    protected async Task PrevPage()
+    {
+        if (CurPage > 1)
+        {
+            CurPage--;
+            hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
+        }
+    }
+
+    private async Task<List<Hotel>> GetHotels(int limit, int offset)
+    {
+        return await _dbContext.Hotels
+            .OnlyActive()
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+}

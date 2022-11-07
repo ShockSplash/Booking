@@ -12,4 +12,8 @@
       <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\img" />
+    </ItemGroup>
+
 </Project>
