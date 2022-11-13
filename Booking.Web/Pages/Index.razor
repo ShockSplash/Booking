@@ -38,7 +38,9 @@
                     </p>
         </div>
         
-          <MatButton Raised="true">Отправить</MatButton>
+        <MatButton Raised="true">Отправить</MatButton>
+        
+        <RadzenButton Click="@ButtonClicked" class="rz-ripple" Text="Найти отели!"></RadzenButton>
     </div>
 
 </EditForm>
@@ -80,5 +82,10 @@
             .OnlyActive()
             .Select(x => x.Name)
             .ToListAsync();
+    }
+    
+    void ButtonClicked()
+    {
+        _navigationManager.NavigateTo("hotels");
     }
 }

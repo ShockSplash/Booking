@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
+      <PackageReference Include="Radzen.Blazor" Version="4.3.2" />
     </ItemGroup>
 
     <ItemGroup>

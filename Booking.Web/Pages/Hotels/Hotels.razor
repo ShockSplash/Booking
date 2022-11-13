@@ -1,106 +1,32 @@
 @page "/hotels"
-@using Booking.DataLayer.Entities
-@using Booking.DataLayer
-@using Booking.DataLayer.Extensions
 @using Microsoft.EntityFrameworkCore
+@using Booking.DataLayer
+@using Booking.DataLayer.Entities
 
-@inject BookingDbContext _dbContext;
+@inject BookingDbContext _DbContext;
 
-<h3>@startText</h3>
+<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    DataGrid
+</RadzenText>
+<RadzenText TextStyle="TextStyle.Body1" Class="my-4">
+    Display tabular data with ease. Perform paging, sorting and filtering through Entity Framework without extra code.
+</RadzenText>
 
-@if (hotels == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var hotel in hotels)
-        {
-            <tr>
-                <td>@hotel.Name</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-
-    <div>
-        <input type="button" class="btn-lg btn" id="prev" @onclick="PrevPage" value="Previous"/>
-
-        @for (int i = CurPage - 2; i <= CurPage + 1; i++)
-        {
-            int j = i - 1;
-            @if (i > 0)
-            {
-                if (j * hotelsPerPage > TotalCount)
-                {
-                    continue;
-                }
-                
-                if (i == CurPage)
-                {
-                    <span class="px-2" style="font-weight:bold;cursor:pointer" @onclick="() => GetHotels(hotelsPerPage, j * hotelsPerPage)">@i</span>
-                }
-                else
-                {
-                    <span class="px-2" style="cursor:pointer" @onclick="() => GetHotels(hotelsPerPage, j * hotelsPerPage)">@i</span>
-                }
-            }
-
-        }
-        <input type="button" class="btn-lg btn" id="next" @onclick="NextPage" value="Next"/>
-    </div>
-}
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+        Data="@hotels" TItem="Hotel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="Hotel" Property="Name" Title="Название" Frozen="true" Width="160px" />
+            <RadzenDataGridColumn TItem="Hotel" Property="City.Name" Title="Город" Width="160px"/>
+        </Columns>
+    </RadzenDataGrid>
 @code {
-    private int TotalCount = 0;
-    
-    private int CurPage = 1;
-    
-    private const int hotelsPerPage = 5;
-    
-    private List<Hotel> hotels = null!;
+    IEnumerable<Hotel> hotels;
 
-    private string startText = "Все наши отели";
-    
-    protected async Task NextPage()
+    protected override void OnInitialized()
     {
-        if (hotels.Count == 0)
-            return;
-        
-        CurPage++;
-        hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
+        base.OnInitialized();
+ 
+        hotels = _DbContext.Hotels
+            .Include(x => x.City);
     }
-    
-    protected override async Task OnInitializedAsync()
-    {
-        hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
-        TotalCount = await _dbContext.Hotels.
-            OnlyActive()
-            .CountAsync();
-    }
-    
-    protected async Task PrevPage()
-    {
-        if (CurPage > 1)
-        {
-            CurPage--;
-            hotels = await GetHotels(hotelsPerPage, (CurPage - 1) * hotelsPerPage);
-        }
-    }
-
-    private async Task<List<Hotel>> GetHotels(int limit, int offset)
-    {
-         return await _dbContext.Hotels
-            .OnlyActive()
-            .Skip(offset)
-            .Take(limit)
-            .ToListAsync();
-    }
-
 }
