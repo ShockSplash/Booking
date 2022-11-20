@@ -15,7 +15,7 @@ namespace Booking.BussinesLogic.Handlers.GetHotelsList
                 .GreaterThan(x => x.StartDate);
 
             RuleFor(x => x.StartDate)
-                .GreaterThan(DateTimeOffset.Now);
+                .GreaterThan(DateTime.Now);
         }
     }
 }

@@ -7,6 +7,7 @@ using Booking.Web.Data;
 using FluentValidation;
 using MatBlazor;
 using MediatR;
+using Radzen;
 
 namespace Booking.Web
 {
@@ -22,6 +23,11 @@ namespace Booking.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMatBlazor();
+            
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
+            services.AddScoped<TooltipService>();
+            services.AddScoped<ContextMenuService>();
             
             services.AddBookingDbContext(Configuration);
             services.AddValidatorsFromAssemblyContaining(typeof(Startup));
