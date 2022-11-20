@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Booking.DataLayer.Entities;
 using MediatR;
 
@@ -7,14 +8,18 @@ namespace Booking.BussinesLogic.Handlers.GetHotelsList
 {
     public record GetHotelsListRequest : IRequest<List<GetHotelsListResponse>>
     {
-        public string City { get; init; }
+        [Required]
+        public string City { get; set; }
 
-        public DateTimeOffset StartDate { get; init; }
+        [Required]
+        public DateTime StartDate { get; set; }
 
-        public DateTimeOffset EndDate { get; init; }
+        [Required]
+        public DateTime EndDate { get; set; }
 
-        public int Seats { get; init; }
+        [Required]
+        public int Seats { get; set; }
 
-        public RoomType Type { get; init; }
+        public string Type { get; set; }
     }
 }
