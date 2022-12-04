@@ -39,6 +39,7 @@
     {
         await base.OnInitializedAsync();
 
+        // TODO:подумать над запросом
         _hotels = _dbContext.Hotels
             .OnlyActive()
             .Where(x => x.CityId == CityId)
@@ -46,7 +47,7 @@
             .Include(x => x.City)
             .Where(x => x.Rooms.Any(z => z.Seats == Seats))
             .Include(x => x.Bookings)
-            .Where(x => x.Bookings.All(z => StartDate >= EndDate && EndDate <= z.BeginDate))
+            .Where(x => x.Bookings.All(z => StartDate > z.EndDate))
             .AsNoTracking();
     }
 }
