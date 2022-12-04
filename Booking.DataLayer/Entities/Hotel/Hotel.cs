@@ -16,6 +16,8 @@ namespace Booking.DataLayer.Entities
         #region NavigationProperies
 
         public List<Room> Rooms { get; init; }
+        
+        public List<Booking> Bookings { get; init; }
 
         #endregion
     }
