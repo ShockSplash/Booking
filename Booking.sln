@@ -1,10 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.DataLayer", "Booking.DataLayer\Booking.DataLayer.csproj", "{C1F456DD-6F49-48AC-8CAC-179E1BD631B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.BusinessLogic", "Booking.BusinessLogic\Booking.BusinessLogic.csproj", "{B670EC40-A31D-46A0-A5F4-E0FB019B8CBD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Web", "Booking.Web\Booking.Web.csproj", "{37A47038-EF5D-41CA-841C-C5003B52493D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityProvider", "IdentityProvider\IdentityProvider.csproj", "{4C3C7A22-8FE2-401C-9296-54EE50574BC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Client", "Booking.Client\Booking.Client.csproj", "{C298A3DE-71BE-4CF2-863B-5E270D781CA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,13 @@ Global
 		{37A47038-EF5D-41CA-841C-C5003B52493D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37A47038-EF5D-41CA-841C-C5003B52493D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37A47038-EF5D-41CA-841C-C5003B52493D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C3C7A22-8FE2-401C-9296-54EE50574BC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C3C7A22-8FE2-401C-9296-54EE50574BC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C3C7A22-8FE2-401C-9296-54EE50574BC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C3C7A22-8FE2-401C-9296-54EE50574BC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C298A3DE-71BE-4CF2-863B-5E270D781CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C298A3DE-71BE-4CF2-863B-5E270D781CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C298A3DE-71BE-4CF2-863B-5E270D781CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C298A3DE-71BE-4CF2-863B-5E270D781CA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -10,7 +10,11 @@
 
     <ItemGroup>
       <PackageReference Include="MatBlazor" Version="2.9.0-develop-042" />
-      <PackageReference Include="Radzen.Blazor" Version="4.3.2" />
+      <PackageReference Include="Radzen.Blazor" Version="4.3.2" />   
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.15" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.15" />
+        <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>

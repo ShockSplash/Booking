@@ -1,3 +1,4 @@
+using System.Linq;
 using Booking.DataLayer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,7 @@ namespace Booking.Web
         {
             services.AddMatBlazor();
             
+            
             services.AddScoped<DialogService>();
             services.AddScoped<NotificationService>();
             services.AddScoped<TooltipService>();
@@ -36,6 +38,11 @@ namespace Booking.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            
+           // services.AddOidcAuthentication(options =>
+           // {
+             //  Configuration.Bind("oidc", options.ProviderOptions);
+           // });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

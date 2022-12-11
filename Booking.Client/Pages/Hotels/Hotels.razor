@@ -1,0 +1,53 @@
+@page "/hotels/{CityId:guid}/{Seats:int}/{StartDate:datetime}/{EndDate:datetime}"
+@using Microsoft.EntityFrameworkCore
+@using Booking.DataLayer
+@using Booking.DataLayer.Entities
+@using Booking.DataLayer.Extensions
+
+@inject BookingDbContext _dbContext;
+
+<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    DataGrid
+</RadzenText>
+<RadzenText TextStyle="TextStyle.Body1" Class="my-4">
+    Display tabular data with ease. Perform paging, sorting and filtering through Entity Framework without extra code.
+</RadzenText>
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@_hotels" TItem="Hotel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Hotel" Property="Name" Title="Название" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn TItem="Hotel" Property="City.Name" Title="Город" Width="160px"/>
+    </Columns>
+</RadzenDataGrid>
+@code {
+    IEnumerable<Hotel> _hotels;
+    
+    [Parameter]
+    public Guid CityId {get; init;}
+    
+    [Parameter]
+    public int Seats {get; init;}
+    
+    [Parameter]
+    public DateTime StartDate {get; init;}
+    
+    [Parameter]
+    public DateTime EndDate {get; init;}
+
+    protected override async void OnInitialized()
+    {
+        await base.OnInitializedAsync();
+
+    // TODO:подумать над запросом
+        _hotels = _dbContext.Hotels
+            .OnlyActive()
+            .Where(x => x.CityId == CityId)
+            .Include(x => x.Rooms)
+            .Include(x => x.City)
+            .Where(x => x.Rooms.Any(z => z.Seats == Seats))
+            .Include(x => x.Bookings)
+            .Where(x => x.Bookings.All(z => StartDate > z.EndDate))
+            .AsNoTracking();
+    }
+}
