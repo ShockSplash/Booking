@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Booking.DataLayer.Entities
 {
@@ -15,6 +16,8 @@ namespace Booking.DataLayer.Entities
         public Guid HotelId { get; init; }
 
         public Hotel Hotel { get; init; }
+        
+        public List<Booking> Bookings { get; init; }
         
         #endregion
     }
