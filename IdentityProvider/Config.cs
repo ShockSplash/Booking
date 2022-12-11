@@ -5,6 +5,7 @@ namespace IdentityProvider
 {
     public static class Config
     {
+        
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
@@ -12,6 +13,13 @@ namespace IdentityProvider
                 new IdentityResources.Profile(),
                    };
 
+        public static IEnumerable<ApiResource> Apis =>
+            new ApiResource[]
+            {
+                // the api requires the role claim
+                new ApiResource("bookingapi", "The Weather API")
+            };
+        
         public static IEnumerable<ApiScope> ApiScopes =>
             new[]
             {
@@ -20,7 +28,7 @@ namespace IdentityProvider
             };
 
         public static IEnumerable<Client> Clients =>
-            new[]
+            new Client[]
             {
                 new Client
                 {
@@ -29,7 +37,7 @@ namespace IdentityProvider
                     RequirePkce = true,
                     RequireClientSecret = false,
                     AllowedCorsOrigins = { "https://localhost:5001" },
-                    AllowedScopes = { "openid", "profile" },
+                    AllowedScopes = { "openid", "profile", "email", "bookingapi" },
                     RedirectUris = { "https://localhost:5001/authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
                     Enabled = true
