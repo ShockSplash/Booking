@@ -4,6 +4,9 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>Booking.BussinesLogic</RootNamespace>
     </PropertyGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Booking.DataLayer\Booking.DataLayer.csproj" />

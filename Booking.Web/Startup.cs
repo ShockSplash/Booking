@@ -39,10 +39,12 @@ namespace Booking.Web
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             
-           // services.AddOidcAuthentication(options =>
-           // {
-             //  Configuration.Bind("oidc", options.ProviderOptions);
-           // });
+           services.AddOidcAuthentication(options =>
+            {
+               Configuration.Bind("oidc", options.ProviderOptions);
+            });
+           
+           
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
