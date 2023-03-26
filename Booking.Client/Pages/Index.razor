@@ -280,7 +280,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await HttpClient.GetAsync("ApiUrl/City");
+        var response = await HttpClient.GetAsync("https://localhost:5002/City");
         if (response.IsSuccessStatusCode)
         {
             citiesList = await response.Content.ReadFromJsonAsync<string[]>();
