@@ -1,3 +1,4 @@
+using Booking.BussinesLogic.Handlers.City.GetAllCities;
 using Booking.DataLayer.Extensions;
 using Booking.DataLayer.Shared;
 using FluentValidation;
@@ -52,7 +53,7 @@ namespace WeatherApi
             services.AddBookingDbContext(Configuration);
             
             services.AddValidatorsFromAssemblyContaining(typeof(Startup));
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(GetAllCitiesRequest));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

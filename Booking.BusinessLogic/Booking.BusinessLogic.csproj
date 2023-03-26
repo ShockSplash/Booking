@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>Booking.BussinesLogic</RootNamespace>
+        <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -10,6 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Booking.DataLayer\Booking.DataLayer.csproj" />
+      <ProjectReference Include="..\Booking.Shared.Models\Booking.Shared.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>

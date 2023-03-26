@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="System.ComponentModel.Annotations">
+        <HintPath>..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.NETCore.App\5.0.15\System.ComponentModel.Annotations.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

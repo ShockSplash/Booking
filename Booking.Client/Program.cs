@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BlazorClient.Folder;
 
 namespace BlazorClient
 {
@@ -14,7 +15,8 @@ namespace BlazorClient
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
-
+            
+            builder.Services.AddBlazorLibraries();
             builder.Services.AddHttpClient("api")
                 .AddHttpMessageHandler(sp =>
                 {
