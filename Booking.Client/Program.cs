@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MatBlazor;
-using Radzen;
 
 namespace BlazorClient
 {
@@ -29,13 +27,6 @@ namespace BlazorClient
                 });
 
             builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("api"));
-            
-            builder.Services.AddMatBlazor();
-            
-            builder.Services.AddScoped<DialogService>();
-            builder.Services.AddScoped<NotificationService>();
-            builder.Services.AddScoped<TooltipService>();
-            builder.Services.AddScoped<ContextMenuService>();
 
             builder.Services
                 .AddOidcAuthentication(options =>
