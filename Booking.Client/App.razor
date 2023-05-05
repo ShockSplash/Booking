@@ -5,7 +5,7 @@
                 <NotAuthorized>
                     @if (context.User.Identity.IsAuthenticated)
                     {
-                        <p>Sorry you are not authorized</p>
+                        <p>Недостаточно прав для просмотра данной страницы</p>
                     }
                     else
                     {
@@ -16,7 +16,7 @@
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
+                <p>Страница не найдена</p>
             </LayoutView>
         </NotFound>
     </Router>

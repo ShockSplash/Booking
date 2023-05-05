@@ -8,6 +8,8 @@ namespace Booking.DataLayer.Entities
         public int Seats { get; init; }
 
         public double PricePerDay { get; init; }
+        
+        public string Description { get; set; }
 
         public RoomType RoomType { get; init; }
 

@@ -1,8 +1,8 @@
 using Booking.Shared.Models;
 
-namespace Booking.BussinesLogic.Handlers.GetHotelsList
+namespace BlazorClient.ClientModels
 {
-    public record GetHotelsListResponse
+    public class GetHotelsListResponse
     {
         public HotelDtoModel[] Hotels { get; set; }
     }

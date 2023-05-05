@@ -1,0 +1,231 @@
+@page "/hotel/{HotelId:guid}/{Seats:int}/{StartDate:datetime}/{EndDate:datetime}"
+@using BlazorClient.ClientModels
+@using System.Globalization
+
+@inject IJSRuntime JSRuntime
+@inject HttpClient HttpClient
+
+@{
+    if (currentHotel != null)
+    {
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+              <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">@currentHotel.Hotel.Name</h1>
+                <p class="lead text-body-secondary">@currentHotel.Hotel.Description.</p>
+              </div>
+            </div>
+          </section>
+        <div class="album py-5 bg-body-tertiary">
+            <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                @{
+                    foreach (var room in currentHotel.Rooms)
+                    {
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                                <div class="card-body">
+                                    <p class="card-text">@room.Description</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Забронировать</button>
+                                        </div>
+                                        <small class="text-body-secondary">@ConvertEnumToDisplay(room.Type)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            </div>
+  </div>
+                                    
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 my-5">
+                    <RadzenCard class="w-100 mb-4" >
+                        <RadzenCheckBox @bind-Value="@showDataLabels" Name="dataLabels"></RadzenCheckBox>
+                        <RadzenLabel Text="Показать цены на графике" For="dataLabels" Style="margin-left: 8px; vertical-align: middle;" />
+                    </RadzenCard>
+                    <h4>Динамика изменения цен за последние несколько лет</h4>
+                    <RadzenChart>
+                        <RadzenColumnSeries Data="@revenue2022" CategoryProperty="Quarter" Title="2021" LineType="LineType.Dashed" ValueProperty="Revenue">
+                            <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                        </RadzenColumnSeries>
+                        <RadzenColumnSeries Data="@revenue2021" CategoryProperty="Quarter" Title="2022" ValueProperty="Revenue">
+                            <RadzenSeriesDataLabels Visible="@showDataLabels" />
+                        </RadzenColumnSeries>
+                        <RadzenColumnOptions Radius="5" />
+                        <RadzenValueAxis Formatter="@FormatAsRub">
+                            <RadzenGridLines Visible="true" />
+                            <RadzenAxisTitle Text="Цена в Руб" />
+                        </RadzenValueAxis>
+                    </RadzenChart>
+                </div>
+            </div>
+        </div>
+
+        if (currentHotel.Hotel.Latitude.HasValue && currentHotel.Hotel.Longitude.HasValue)
+        {
+            <div class="container-fluid">
+                <div class="row p-3">
+                    <div class="col">
+                        <RadzenGoogleMap @ref=map style="height: 400px" Options=@(new Dictionary<string, object> { { "disableDoubleClickZoom", true } })
+                                         Zoom=@zoom Center=@(new GoogleMapPosition() { Lat = currentHotel.Hotel.Latitude.Value, Lng = currentHotel.Hotel.Longitude.Value }) MapClick=@OnMapClick MarkerClick=@OnMarkerClick>
+                            <Markers>
+                                <RadzenGoogleMapMarker Title="@currentHotel.Hotel.Name" Label="@currentHotel.Hotel.Name" Position=@(new GoogleMapPosition { Lat = currentHotel.Hotel.Latitude.Value, Lng = currentHotel.Hotel.Longitude.Value }) />
+                            </Markers>
+                        </RadzenGoogleMap>
+                    </div>
+                </div>
+            </div>   
+        }
+    }
+    else
+    {
+        <h3>Произошла ошибка</h3>
+    }
+}
+
+@code {
+    [Parameter]
+    public Guid HotelId {get; set;}
+
+    private GetRoomsAggregateResponse currentHotel;
+
+    [Parameter]
+    public string CityName {get; set;}
+    
+    [Parameter]
+    public int Seats {get; set;}
+    
+    [Parameter]
+    public DateTime StartDate {get; set;}
+    
+    [Parameter]
+    public DateTime EndDate {get; set;}
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var requestUri = new Uri($"https://localhost:5002/Hotels/aggregate?HotelId={HotelId}&City={CityName}&Seats={Seats}&StartDate={StartDate}&EndDate={EndDate}");
+
+        var httpResponse = await HttpClient.GetAsync(requestUri);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            currentHotel = await httpResponse.Content.ReadFromJsonAsync<GetRoomsAggregateResponse>();
+        }
+    }
+
+    #region Chart
+    bool showDataLabels = false;
+
+    class DataItem
+    {
+        public string Quarter { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    static string ConvertEnumToDisplay(string enumValue)
+    {
+        return enumValue.ToLower(CultureInfo.CurrentCulture) switch
+        {
+            "economy" => "Эконом",
+            "comfort" => "Комфорт",
+            "luxe" => "Люкс",
+            _ => "Не удалось получить информмацию о типе комнаты"
+            };
+    }
+
+    string FormatAsRub(object value)
+    {
+        return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("ru-Ru"));
+    }
+
+    DataItem[] revenue2021 = new DataItem[] {
+        new DataItem
+        {
+            Quarter = "E1",
+            Revenue = 2450
+        },
+        new DataItem
+        {
+            Quarter = "E2",
+            Revenue = 3300
+        },
+        new DataItem
+        {
+            Quarter = "C1",
+            Revenue = 3800
+        },
+        new DataItem
+        {
+            Quarter = "C2",
+            Revenue = 4400
+        },
+        new DataItem
+        {
+            Quarter = "L2",
+            Revenue = 7500
+        }
+    };
+
+    DataItem[] revenue2022 = new DataItem[] {
+        new DataItem
+        {
+            Quarter = "E1",
+            Revenue = 2800
+        },
+        new DataItem
+        {
+            Quarter = "E2",
+            Revenue = 3600
+        },
+        new DataItem
+        {
+            Quarter = "C1",
+            Revenue = 3750
+        },
+        new DataItem
+        {
+            Quarter = "C2",
+            Revenue = 4800
+        },
+        new DataItem
+        {
+            Quarter = "L2",
+            Revenue = 8900
+        }
+    };
+    #endregion
+
+    #region GoogleMap
+
+    int zoom = 10;
+    RadzenGoogleMap map;
+
+    void OnMapClick(GoogleMapClickEventArgs args)
+    {
+    }
+
+    async Task OnMarkerClick(RadzenGoogleMapMarker marker)
+    {
+        var message = $"Custom information about <b>{marker.Title}</b>";
+
+        var code = $@"
+var map = Radzen['{map.UniqueID}'].instance;
+var marker = map.markers.find(m => m.title == '{marker.Title}');
+if(window.infoWindow) {{window.infoWindow.close();}}
+window.infoWindow = new google.maps.InfoWindow({{content: '{message}'}});
+setTimeout(() => window.infoWindow.open(map, marker), 200);
+";
+
+        await JSRuntime.InvokeVoidAsync("eval", code);
+    }
+
+    #endregion
+}
+}

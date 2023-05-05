@@ -250,7 +250,6 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
                             <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Найти"/>
-                            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel"/>
                         </div>
                     </div>
                 </div>
@@ -289,7 +288,7 @@
 
     private async Task Submit(GetHotelsListClientRequest args)
     {
-        _navigationManager.NavigateTo($"hotels/{2}/{_request.Seats}/{_request.StartDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}/{_request.EndDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}");
+        _navigationManager.NavigateTo($"hotels/{_request.City}/{_request.Seats}/{_request.StartDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}/{_request.EndDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}");
     }
 
     private void Cancel()

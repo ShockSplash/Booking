@@ -30,7 +30,7 @@
 
             <AuthorizeView>
                 <Authorized>
-                    Привет, @context.User.Identity.Name!   
+                    <div class="hello-block">Привет, @context.User.Identity.Name!</div> 
                     <button type="button" class="btn btn-warning" @onclick="BeginSignOut">Выйти</button>
                 </Authorized>
                 <NotAuthorized>
