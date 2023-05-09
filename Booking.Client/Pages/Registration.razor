@@ -1,0 +1,100 @@
+@using System.Net.Http
+@using Microsoft.AspNetCore.Components
+@using Newtonsoft.Json
+@using System.Net.Http.Headers
+@using System.Net.Http.Json
+@using System.Text
+@using BlazorClient.ClientModels
+
+@page "/authentication/registration"
+@attribute [AllowAnonymous]
+
+<h3>Регистрация</h3>
+@inject HttpClient HttpClient
+
+@{
+    if (RegistrationResponse != null)
+    {
+        if (RegistrationResponse.IsSuccess)
+        {
+            <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Success" Variant="Variant.Flat" Shade="Shade.Lighter">
+                Вы успешно зарегистрировались
+            </RadzenAlert>
+        }
+        else
+        {
+            <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Shade="Shade.Lighter">
+                Произошла ошибка при регистрации
+            </RadzenAlert>
+            <h3>@RegistrationResponse.Comment</h3>
+        }
+    }}
+
+<RadzenTemplateForm id="hotelsForm" Data="@RegistrationViewModel" Submit="@(async(RegistrationViewModel model) => {await Submit(model); })">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <RadzenFieldset Text="Форма регистрации">
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Имя пользователя"/>
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Name="UserName" @bind-Value="RegistrationViewModel.UserName" AllowClear="true" Placeholder="Введите имя пользователя" style="width: 100%;">
+                                <RadzenRequiredValidator Component="UserName" Text="Имя пользователя не может быть пустым"></RadzenRequiredValidator>
+                            </RadzenTextBox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <RadzenLabel Text="Почта"/>
+                        </div>
+                        <div class="col-md-8">
+                            <RadzenTextBox Name="Email" @bind-Value="RegistrationViewModel.Email" AllowClear="true" Placeholder="Введите Email" style="width: 100%;">
+                                <RadzenRequiredValidator Component="Email" Text="Email не может быть пустым"></RadzenRequiredValidator>
+                            </RadzenTextBox>
+                        </div>
+                    </div>
+                    <div class="row">
+                             <div class="col-md-4 align-items-center d-flex">
+                                                    <RadzenLabel Text="Пароль"/>
+                                                </div>
+                        <div class="col-lg-3 p-3">
+                            <RadzenPassword Name="Password" @bind-Value="RegistrationViewModel.Password" AllowClear="true" Placeholder="Введите пароль" style="width: 100%;">
+                                <RadzenRequiredValidator Component="Password" Text="Пароль не может быть пустым"></RadzenRequiredValidator>
+                            </RadzenPassword>
+                        </div>
+                    </div>
+                </RadzenFieldset>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="регистрация"/>
+            </div>
+        </div>
+    </div>
+</RadzenTemplateForm>
+
+
+@code {
+    private RegistrationViewModel RegistrationViewModel = new RegistrationViewModel();
+
+    private RegistrationResponse RegistrationResponse;
+
+    private async Task Submit(RegistrationViewModel model)
+    {
+        HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var jsonString = JsonConvert.SerializeObject(model);
+        var jsonContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+        var response = await HttpClient.PostAsync("https://localhost:5000/External", jsonContent);
+
+        if (response.IsSuccessStatusCode)
+        {
+            RegistrationResponse = await response.Content.ReadFromJsonAsync<RegistrationResponse>();
+        }
+    }
+
+}

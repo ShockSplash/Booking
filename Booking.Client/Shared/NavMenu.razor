@@ -30,12 +30,15 @@
 
             <AuthorizeView>
                 <Authorized>
-                    <div class="hello-block">Привет, @context.User.Identity.Name!</div> 
+                    <div class="hello-block">Привет, @context.User.Identity.Name!</div>
                     <button type="button" class="btn btn-warning" @onclick="BeginSignOut">Выйти</button>
                 </Authorized>
                 <NotAuthorized>
                     <div class="text-end">
                         <button type="button" @onclick="LoginAction" class="btn btn-outline-light me-2">Войти</button>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" @onclick="RegAction" class="btn btn-outline-light me-2">Регистрация</button>
                     </div>
                 </NotAuthorized>
             </AuthorizeView>
@@ -54,5 +57,10 @@
     private void LoginAction()
     {
         NavigationManager.NavigateTo("authentication/login");
+    }
+    
+    private void RegAction()
+    {
+        NavigationManager.NavigateTo("authentication/registration");
     }
 }

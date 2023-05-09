@@ -83,12 +83,12 @@ namespace IdentityProvider
                         }
 
                         result = userMgr.AddClaimsAsync(bob, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Bob"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
+                        new Claim(JwtClaimTypes.Name, "Артем Борисовский"),
+                        new Claim(JwtClaimTypes.GivenName, "Артем"),
+                        new Claim(JwtClaimTypes.FamilyName, "Борисовский"),
+                        new Claim(JwtClaimTypes.Email, "AIBorisovskiy@email.com"),
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                        new Claim(JwtClaimTypes.WebSite, "http://AIBorisovskiy"),
                         new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
                         new Claim("location", "somewhere")
                     }).Result;

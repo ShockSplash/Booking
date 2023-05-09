@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Booking.DataLayer;
@@ -7,6 +8,7 @@ using Booking.DataLayer.Entities;
 using Booking.DataLayer.Extensions;
 using Booking.Shared.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Booking.BussinesLogic.Handlers.GetHotelsList

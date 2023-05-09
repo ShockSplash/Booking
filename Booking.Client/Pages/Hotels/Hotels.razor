@@ -1,9 +1,10 @@
 @page "/hotels/{CityName}/{Seats:int}/{StartDate:datetime}/{EndDate:datetime}"
-@using Booking.Shared.Models
 @using BlazorClient.ClientModels
+@using global::Booking.Shared.Models
 
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@attribute [Authorize]
 
 <RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
     Лучшие отели

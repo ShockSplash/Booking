@@ -55,7 +55,8 @@ namespace Booking.BussinesLogic.Handlers.GetRoomsAggregate
                     Id = x.Id,
                     Seats = x.Seats,
                     Type = x.RoomType.ToString(),
-                    Description = x.Description
+                    Description = x.Description,
+                    PricePerDay = x.PricePerDay
                 })
                 .ToArrayAsync(cancellationToken);
             

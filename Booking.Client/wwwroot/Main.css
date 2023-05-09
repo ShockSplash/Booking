@@ -405,3 +405,12 @@ nav{
     left: 20px;
     z-index: 1;
 }
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+}

@@ -1,11 +1,11 @@
 ﻿@page "/"
-@using Booking.Shared.Models
+@using global::Booking.Shared.Models
 @using Microsoft.Extensions.Configuration
 
 @inject HttpClient HttpClient
 @inject NavigationManager _navigationManager;
 @inject IConfiguration Configuration;
-@attribute [Authorize(Roles = "Admin")]
+@attribute [AllowAnonymous]
 
 <body>
 <div class="intro">
@@ -247,11 +247,16 @@
                             </RadzenFieldset>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
-                            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Найти"/>
+                    <Authorized>
+                        <div class="row justify-content-center">
+                            <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+                                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Найти"/>
+                            </div>
                         </div>
-                    </div>
+                    </Authorized>
+                    <NotAuthorized>
+                        Для поиска авторизуйтесь
+                    </NotAuthorized>
                 </div>
             </RadzenTemplateForm>
         }

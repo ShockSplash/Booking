@@ -1,5 +1,4 @@
 using System;
-using Booking.Shared.Models;
 
 namespace Booking.BusinessLogic.Handlers.GetRoomsAggregate
 {
@@ -64,5 +63,7 @@ namespace Booking.BusinessLogic.Handlers.GetRoomsAggregate
         public string Type { get; set; }
 
         public string Description { get; set; }
+
+        public double PricePerDay { get; set; }
     }
 }

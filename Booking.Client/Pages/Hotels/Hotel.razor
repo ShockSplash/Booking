@@ -1,21 +1,30 @@
 @page "/hotel/{HotelId:guid}/{Seats:int}/{StartDate:datetime}/{EndDate:datetime}"
 @using BlazorClient.ClientModels
 @using System.Globalization
+@attribute [Authorize]
 
 @inject IJSRuntime JSRuntime
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
 @{
     if (currentHotel != null)
     {
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
-              <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">@currentHotel.Hotel.Name</h1>
-                <p class="lead text-body-secondary">@currentHotel.Hotel.Description.</p>
-              </div>
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">@currentHotel.Hotel.Name</h1>
+                </div>
             </div>
-          </section>
+        </section>
+        
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <img src="/img/Hotels/@HotelId/@HotelId-1.jpeg" alt="фото отеля" class="img-fluid">
+                </div>
+            </div>
+        </div>
         <div class="album py-5 bg-body-tertiary">
             <div class="container">
 
@@ -25,12 +34,12 @@
                     {
                         <div class="col">
                             <div class="card shadow-sm">
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                                <img src="/img/Hotels/@HotelId/rooms/@room.Id-.jpeg" alt="Комната" class="img-thumbnail">
                                 <div class="card-body">
-                                    <p class="card-text">@room.Description</p>
+                                    <p class="card-text">@room.Description. Цена за ночь: @room.PricePerDay</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Забронировать</button>
+                                            <button type="button" @onclick="() => OnRoomReservedClick(room.Id)" class="btn btn-sm btn-outline-secondary">Забронировать</button>
                                         </div>
                                         <small class="text-body-secondary">@ConvertEnumToDisplay(room.Type)</small>
                                     </div>
@@ -121,7 +130,7 @@
     }
 
     #region Chart
-    bool showDataLabels = false;
+    bool showDataLabels;
 
     class DataItem
     {
@@ -145,7 +154,7 @@
         return ((double)value).ToString("C0", CultureInfo.CreateSpecificCulture("ru-Ru"));
     }
 
-    DataItem[] revenue2021 = new DataItem[] {
+    DataItem[] revenue2021 = {
         new DataItem
         {
             Quarter = "E1",
@@ -173,7 +182,7 @@
         }
     };
 
-    DataItem[] revenue2022 = new DataItem[] {
+    DataItem[] revenue2022 = {
         new DataItem
         {
             Quarter = "E1",
@@ -227,5 +236,9 @@ setTimeout(() => window.infoWindow.open(map, marker), 200);
     }
 
     #endregion
-}
+
+    private void OnRoomReservedClick(Guid roomId)
+    {
+        NavigationManager.NavigateTo($"room/{roomId}/booking/{StartDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}/{EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}");
+    }
 }

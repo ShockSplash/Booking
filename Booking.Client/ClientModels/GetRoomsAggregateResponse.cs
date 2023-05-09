@@ -69,5 +69,10 @@ namespace BlazorClient.ClientModels
         /// Опсание
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Цена за день
+        /// </summary>
+        public double PricePerDay { get; set; }
     }
 }
