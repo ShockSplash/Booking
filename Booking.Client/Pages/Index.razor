@@ -229,6 +229,15 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-lg-3 p-3">
+                                        <RadzenCard>
+                                            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Рейтинг</RadzenText>
+                                            <RadzenNumeric Name="Rate" style="display: block" @bind-Value="_request.Rate" TValue="int" Class="w-100"></RadzenNumeric>
+                                            <RadzenNumericRangeValidator Component="Rate" Min="1" Max="5" Text="Рейтинг должен быть от 1 до 5 звезд" Style="position: absolute"/>
+                                        </RadzenCard>
+                                    </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4 align-items-center d-flex">
                                         <RadzenLabel Text="Дата начала"/>
                                     </div>
@@ -279,7 +288,7 @@
     };
 
     private string ApiUrl => Configuration.GetValue<string>("ApiUrl");
-    
+
     private string[] citiesList;
 
     protected override async Task OnInitializedAsync()

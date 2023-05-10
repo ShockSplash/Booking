@@ -18,6 +18,8 @@ namespace Booking.DataLayer.Entities
 
         public double? Longitude { get; set; }
 
+        public int? Rate { get; set; }
+
         #region NavigationProperies
 
         public List<Room> Rooms { get; init; }

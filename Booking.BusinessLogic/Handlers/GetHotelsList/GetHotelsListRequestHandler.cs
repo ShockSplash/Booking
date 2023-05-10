@@ -34,6 +34,8 @@ namespace Booking.BussinesLogic.Handlers.GetHotelsList
             var availableHotels = await _dbContext.Rooms
                 .Include(x => x.Hotel)
                 .ThenInclude(x => x.City)
+                .Where(x => x.Hotel.IsActive)
+              //  .Where(x => x.Hotel.Rate == request.Rate || !x.Hotel.Rate.HasValue)
                 .Where(x => x.Seats == request.Seats)
                 .Where(x => x.Hotel.City.Name == request.City)
                 .Where(r => !occupiedRoomIds.Contains(r.Id))

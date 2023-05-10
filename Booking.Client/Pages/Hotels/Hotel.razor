@@ -13,7 +13,12 @@
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">@currentHotel.Hotel.Name</h1>
+                    <h1 class="fw-light">@currentHotel.Hotel.Name 
+                                   @{
+                                       if (currentHotel.Hotel.Rate.HasValue)
+                                       {
+                                           <RadzenRating ReadOnly=true Value="currentHotel.Hotel.Rate.Value" />
+                                       }}</h1>
                 </div>
             </div>
         </section>
@@ -24,6 +29,8 @@
                     <img src="/img/Hotels/@HotelId/@HotelId-1.jpeg" alt="фото отеля" class="img-fluid">
                 </div>
             </div>
+        </div>
+        <div class="rz-p-12 rz-text-align-center">
         </div>
         <div class="album py-5 bg-body-tertiary">
             <div class="container">

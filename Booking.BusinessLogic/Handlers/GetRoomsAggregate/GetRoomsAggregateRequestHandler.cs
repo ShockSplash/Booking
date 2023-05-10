@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Booking.BusinessLogic.Handlers.GetRoomsAggregate;
 using Booking.BussinesLogic.Handlers.GetHotelsList;
 using Booking.DataLayer;
+using Booking.DataLayer.Extensions;
 using Booking.Shared.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace Booking.BussinesLogic.Handlers.GetRoomsAggregate
         public async Task<GetRoomsAggregateResponse> Handle(GetRoomsAggregateRequest request, CancellationToken cancellationToken)
         {
             var hotel = await _dbContext.Hotels
+                .OnlyActive()
                 .Include(x => x.City)
                 .Where(x => x.Id == request.HotelId)
                 .Select(x => new HotelsResponseModel
@@ -31,7 +33,8 @@ namespace Booking.BussinesLogic.Handlers.GetRoomsAggregate
                     CityName = x.City.Name,
                     Latitude = x.Latitude,
                     Longitude = x.Longitude,
-                    Description = x.Description
+                    Description = x.Description,
+                    Rate = x.Rate
                 })
                 .SingleAsync(cancellationToken);
 

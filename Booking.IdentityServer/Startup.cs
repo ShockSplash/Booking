@@ -79,6 +79,7 @@ namespace IdentityProvider
             }
 
             app.UseStaticFiles();
+            app.UseCorsMiddleware();
 
             app.UseRouting();
             app.UseIdentityServer();

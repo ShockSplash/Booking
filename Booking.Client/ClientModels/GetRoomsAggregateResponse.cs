@@ -46,6 +46,8 @@ namespace BlazorClient.ClientModels
         /// Опсание
         /// </summary>
         public string Description { get; set; }
+
+        public int? Rate { get; set; }
     }
 
     public class RoomsResponseUnit

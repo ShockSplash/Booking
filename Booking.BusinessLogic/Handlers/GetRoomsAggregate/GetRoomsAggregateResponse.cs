@@ -43,6 +43,8 @@ namespace Booking.BusinessLogic.Handlers.GetRoomsAggregate
         public double? Longitude { get; set; }
 
         public string Description { get; set; }
+
+        public int? Rate { get; set; }
     }
 
     public class RoomsResponseUnit

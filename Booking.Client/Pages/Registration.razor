@@ -89,7 +89,7 @@
         var jsonString = JsonConvert.SerializeObject(model);
         var jsonContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-        var response = await HttpClient.PostAsync("https://localhost:5000/External", jsonContent);
+        var response = await HttpClient.PostAsync("https://localhost:5000/User", jsonContent);
 
         if (response.IsSuccessStatusCode)
         {

@@ -13,5 +13,7 @@ namespace Booking.Shared.Models
         public int Seats { get; set; }
 
         public string Type { get; set; }
+
+        public int Rate { get; set; }
     }
 }

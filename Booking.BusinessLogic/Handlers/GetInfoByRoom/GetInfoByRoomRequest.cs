@@ -7,4 +7,18 @@ namespace Booking.BusinessLogic.Handlers.GetInfoByRoom
     {
         public Guid RoomId { get; set; }
     }
+    public class GetAllRoomsRequest : IRequest<GetInfoByRoomResponse>
+    {
+        public Guid RoomId { get; set; }
+    }
+    
+    public class AddRoomRequest : IRequest<bool>
+    {
+        public Guid RoomId { get; set; }
+    }
+    
+    public class UpdateRoomRequest : IRequest<bool>
+    {
+        public Guid RoomId { get; set; }
+    }
 }

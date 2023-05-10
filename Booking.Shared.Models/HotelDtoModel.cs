@@ -9,6 +9,11 @@ namespace Booking.Shared.Models
         public string Name { get; set; }
 
         public string HotelCity { get; set; }
+
+        public int? Rate { get; set; }
+
+        public string Description { get; set; }
+
         public bool Equals(HotelDtoModel other)
         {
             if (other is null)
