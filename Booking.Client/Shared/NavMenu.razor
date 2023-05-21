@@ -10,6 +10,10 @@
                 </svg>
             </a>
 
+            <AuthorizeView>
+                <Authorized>
+                 </Authorized>
+            </AuthorizeView>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>
                     <a href="#" class="nav-link px-2 text-white">Главная</a>
@@ -17,6 +21,13 @@
                 <li>
                     <a href="#" class="nav-link px-2 text-white">Об авторе</a>
                 </li>
+                <AuthorizeView>
+                    <Authorized>
+                <li>
+                    <a href="/account/bookings" class="nav-link px-2 text-white">Мои бронирования</a>
+                </li>
+                    </Authorized>
+             </AuthorizeView>               
             </ul>
 
             <AuthorizeView>

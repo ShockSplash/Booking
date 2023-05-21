@@ -23,4 +23,5 @@ namespace Booking.DataLayer.Entities
         
         #endregion
     }
+    
 }
