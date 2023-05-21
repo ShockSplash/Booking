@@ -1,0 +1,68 @@
+﻿@inject NavigationManager NavigationManager
+@inject SignOutSessionStateManager SignOutSessionStateManager
+
+<header class="p-3 text-bg-dark">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+
+            <AuthorizeView>
+                <Authorized>
+                 </Authorized>
+            </AuthorizeView>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li>
+                    <a href="#" class="nav-link px-2 text-white">Главная</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-2 text-white">Об авторе</a>
+                </li>
+                <AuthorizeView>
+                    <Authorized>
+                <li>
+                    <a href="/account/bookings" class="nav-link px-2 text-white">Мои бронирования</a>
+                </li>
+                    </Authorized>
+             </AuthorizeView>               
+            </ul>
+
+            <AuthorizeView>
+                <Authorized>
+                    <div class="hello-block">Привет, @context.User.Identity.Name!</div>
+                    <button type="button" class="btn btn-warning" @onclick="BeginSignOut">Выйти</button>
+                </Authorized>
+                <NotAuthorized>
+                    <div class="text-end">
+                        <button type="button" @onclick="LoginAction" class="btn btn-outline-light me-2">Войти</button>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" @onclick="RegAction" class="btn btn-outline-light me-2">Регистрация</button>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</header>
+
+@code
+{
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutSessionStateManager.SetSignOutState();
+        NavigationManager.NavigateTo("authentication/logout");
+    }
+
+    private void LoginAction()
+    {
+        NavigationManager.NavigateTo("authentication/login");
+    }
+    
+    private void RegAction()
+    {
+        NavigationManager.NavigateTo("authentication/registration");
+    }
+}

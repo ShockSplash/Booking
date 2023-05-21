@@ -21,7 +21,7 @@ namespace Booking.DataLayer.Extensions
             return configuration
                 .GetSection(nameof(NpgsqlConnection))
                 .Get<NpgsqlConnectionStringBuilder>()
-                .ToString()!;
+                .ToString();
         }
     }
 }

@@ -1,0 +1,309 @@
+﻿@page "/"
+@using global::Booking.Shared.Models
+@using Microsoft.Extensions.Configuration
+
+@inject HttpClient HttpClient
+@inject NavigationManager _navigationManager;
+@inject IConfiguration Configuration;
+@attribute [AllowAnonymous]
+
+<body>
+<div class="intro">
+    <div class="container">
+        <div class="intro-inner">
+            <h2 class="intro-subtitle">Creative tools</h2>
+            <h1 class="intro-title">Welcome to TravelGo</h1>
+            <a href="#hotelsForm" class="but-learn">К поиску отелей</a>
+        </div><!-- /intro-inner -->
+        <div class="intro-slider">
+            <div class="slider-item active"><b class="slider-number">01</b> Москва</div>
+            <div class="slider-item"><b class="slider-number">02</b> Сочи</div>
+            <div class="slider-item"><b class="slider-number">03</b> Казань</div>
+            <div class="slider-item"><b class="slider-number">04</b> Санкт-Петербург</div>
+        </div><!-- /intro-slider -->
+    </div><!-- /container -->
+</div> <!-- /intro -->
+
+
+<section class="section">
+    <div class="container">
+
+
+        <div class="section-header">
+            <h3 class="section-subtitle">Чем мы занимаемся?</h3>
+            <h2 class="section-title">История о нас</h2>
+        </div>
+        <div class="section-text">
+            <p>TravelGo - быстрорастущая компания, которая помогает огромному количеству людей найти отель в командировках, семейных поездках, на отдыхе и много еще где...</p>
+        </div>
+
+
+        <div class="about">
+            <div class="about-item">
+                <div class="about-img">
+                    <img src="img/computer.png" alt="Computer">
+                </div>
+                <div class="about-text-pic">
+                    <div class="about-text">Командировка</div>
+                    <div class="about-pic">
+                        <img src="img/USERS.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="about-item">
+                <div class="about-img">
+                    <img src="img/phone.png" alt="Phone">
+                </div>
+                <div class="about-text-pic">
+                    <div class="about-text">Семейные поездки</div>
+                    <div class="about-pic">
+                        <img src="img/USERS.png" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="about-item">
+                <div class="about-img">
+                    <img src="img/table.png" alt="Table">
+                </div>
+                <div class="about-text-pic">
+                    <div class="about-text">Отдых</div>
+                    <div class="about-pic">
+                        <img src="img/USERS.png" alt="">
+                    </div>
+                </div><!--/about-text-pic  -->
+            </div><!-- /about-item -->
+        </div><!-- /about -->
+    </div><!-- /container -->
+</section>
+
+<div class="statistics">
+    <div class="container">
+        <div class="stat">
+            <div class="stat-item">
+                <div class="stat-count">15000+</div>
+                <div class="stat-text">Счастливых клиентов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-count">568</div>
+                <div class="stat-text">Клиентов прямо сейчас ищут отель</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-count">5</div>
+                <div class="stat-text">Наград в сфере букинг года</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-count">10+</div>
+                <div class="stat-text">Лет в сфере букинга</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-count">346</div>
+                <div class="stat-text">Сотрудников в нашей компании</div>
+            </div>
+        </div><!-- /stat -->
+    </div><!-- /container -->
+</div><!-- /statistics -->
+
+
+<div class="section">
+    <div class="container">
+        <div class="section-header">
+            <h3 class="section-subtitle">Мы предлагаем</h3>
+            <h2 class="section-title">Лучший сервис</h2>
+        </div><!-- /section-header -->
+        <div class="section-objects">
+            <div class="sec-obj1">
+                <div class="obj">
+                    <div class="obj-pic">
+                        <img src="img/sec-obj/1.png" alt="">
+                    </div>
+                    <div class="sec-text">
+                        <div class="sec-text1">Время</div>
+                        <div class="sec-text2">Заселение происходит после 14:00, выезд из отеля - до 12:00.</div>
+                    </div>
+                </div>
+                <div class="obj">
+                    <div class="obj-pic">
+                        <img src="img/sec-obj/2.png" alt="">
+                    </div>
+                    <div class="sec-text">
+                        <div class="sec-text1">Разнообразный отдых</div>
+                        <div class="sec-text2">При выборе отеля обращайте внимание на описание и услуги отеля.</div>
+                    </div>
+                </div>
+                <div class="obj">
+                    <div class="obj-pic">
+                        <img src="img/sec-obj/3.png" alt="">
+                    </div>
+                    <div class="sec-text">
+                        <div class="sec-text1">Комфорт</div>
+                        <div class="sec-text2">Все отели оборудованы всем необходимым для комфортного проживания.</div>
+                    </div>
+                </div>
+            </div><!-- /sec-obj1 -->
+
+
+            <div class="sec-obj1">
+                <div class="obj">
+                    <div class="obj-pic">
+                        <img src="img/sec-obj/4.png" alt="">
+                    </div>
+                    <div class="sec-text">
+                        <div class="sec-text1">Выбор</div>
+                        <div class="sec-text2">Вы можете найти подходящий отель по всей территории РФ.</div>
+                    </div>
+                </div>
+                <div class="obj">
+                    <div class="obj-pic">
+                        <img src="img/sec-obj/5.png" alt="">
+                    </div>
+                    <div class="sec-text">
+                        <div class="sec-text1">Выбирайте любимые места</div>
+                        <div class="sec-text2">Для многих гостей отели становятся их вторыми домами.</div>
+                    </div>
+                </div>
+                <div class="obj">
+                    <div class="obj-pic">
+                        <img src="img/sec-obj/6.png" alt="">
+                    </div>
+                    <div class="sec-text">
+                        <div class="sec-text1">Современность</div>
+                        <div class="sec-text2">Все отели современные, созданы для людей 21 века.</div>
+                    </div>
+                </div>
+            </div><!-- /sec-obj1 -->
+        </div>
+    </div><!-- /container -->
+</div><!-- /section -->
+
+<section class="section">
+    <div class="container">
+
+
+        <div class="section-header">
+            <h3 class="section-subtitle">Поиск</h3>
+            <h2 class="section-title">Найти отель</h2>
+        </div>
+        <div class="section-text">
+            <p>Мы предлагаем только лучшие отели, проверенные нашей специальной комиссией. </p>
+        </div>
+
+        @if (_request == null)
+        {
+            <p>
+                <em>Loading...</em>
+            </p>
+        }
+        else
+        {
+            <RadzenTemplateForm id="hotelsForm" Data="@_request" Submit="@((GetHotelsListClientRequest args) => { Submit(args); })">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <RadzenFieldset Text="Форма поиска">
+                                <div class="row">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Город проживания"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <RadzenDropDown Name="City" @bind-Value="_request.City" AllowClear="true" Placeholder="Выберите город" Data="@citiesList" style="width: 100%;">
+                                            <RadzenRequiredValidator Component="City" Text="Введите город" Style="position: absolute"/>
+                                        </RadzenDropDown>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Тип комнаты"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <RadzenDropDown @bind-Value="_request.Type" AllowClear="true" Placeholder="Выберите тип комнаты" Data="@roomTypes" style="width: 100%;">
+                                        </RadzenDropDown>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 p-3">
+                                        <RadzenCard>
+                                            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Количество мест</RadzenText>
+                                            <RadzenNumeric Name="Seats" style="display: block" @bind-Value="_request.Seats" TValue="int" Class="w-100"></RadzenNumeric>
+                                            <RadzenNumericRangeValidator Component="Seats" Min="1" Max="5" Text="Количество мест должно быть от 1 до 5" Style="position: absolute"/>
+                                        </RadzenCard>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 p-3">
+                                        <RadzenCard>
+                                            <RadzenText TextStyle="TextStyle.Subtitle2" TagName="TagName.H3">Рейтинг</RadzenText>
+                                            <RadzenNumeric Name="Rate" style="display: block" @bind-Value="_request.Rate" TValue="int" Class="w-100"></RadzenNumeric>
+                                            <RadzenNumericRangeValidator Component="Rate" Min="1" Max="5" Text="Рейтинг должен быть от 1 до 5 звезд" Style="position: absolute"/>
+                                        </RadzenCard>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Дата начала"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <RadzenDatePicker Min="DateTime.Today" style="width: 100%;" Name="StartDate" @bind-Value="_request.StartDate"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 align-items-center d-flex">
+                                        <RadzenLabel Text="Дата конца"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <RadzenDatePicker Min="_request.StartDate" style="width: 100%;" Name="ExpiryDate" @bind-Value="_request.EndDate"/>
+                                    </div>
+                                </div>
+                            </RadzenFieldset>
+                        </div>
+                    </div>
+                    <Authorized>
+                        <div class="row justify-content-center">
+                            <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+                                <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Найти"/>
+                            </div>
+                        </div>
+                    </Authorized>
+                </div>
+            </RadzenTemplateForm>
+        }
+
+    </div><!-- /container -->
+</section>
+
+
+</body>
+
+
+@code
+{
+    private List<string> roomTypes = Enum.GetNames(typeof(RoomType)).ToList();
+
+    private GetHotelsListClientRequest _request = new GetHotelsListClientRequest()
+    {
+        StartDate = DateTime.Now,
+        EndDate = DateTime.Now.AddDays(1)
+    };
+
+    private string ApiUrl => Configuration.GetValue<string>("ApiUrl");
+
+    private string[] citiesList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await HttpClient.GetAsync("https://localhost:5002/City");
+        if (response.IsSuccessStatusCode)
+        {
+            citiesList = await response.Content.ReadFromJsonAsync<string[]>();
+        }
+    }
+
+    private async Task Submit(GetHotelsListClientRequest args)
+    {
+        _navigationManager.NavigateTo($"hotels/{_request.City}/{_request.Seats}/{_request.StartDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}/{_request.EndDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}");
+    }
+
+    private void Cancel()
+    {
+        throw new NotImplementedException();
+    }
+}

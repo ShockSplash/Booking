@@ -18,8 +18,6 @@ namespace Booking.DataLayer
         {
             _configuration = configuration;
         }
-        
-        public DbSet<User> Users { get; set; } = null!;
 
         public DbSet<Room> Rooms { get; set; } = null!;
 
@@ -42,7 +40,6 @@ namespace Booking.DataLayer
             modelBuilder.HasPostgresEnum<Sex>();
             modelBuilder.HasPostgresEnum<RoomType>();
 
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
             modelBuilder.ApplyConfiguration(new RoomConfiguration());
             modelBuilder.ApplyConfiguration(new BookingConfiguration());

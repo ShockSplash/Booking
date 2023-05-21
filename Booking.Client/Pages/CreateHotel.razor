@@ -1,0 +1,32 @@
+@using global::Booking.Shared.Models
+<h3>Админ панель. Создание отеля</h3>
+@attribute [Authorize(Roles = "Admin")]
+@inject HttpClient HttpClient
+@page "/admin/create"
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+    Data="@Hotels" TItem="HotelDtoModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="HotelDtoModel" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="HotelDtoModel" Property="Name" Title="Название отеля" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn TItem="HotelDtoModel" Property="HotelCity" Title="Город отеля" Width="160px"/>
+        <RadzenDataGridColumn TItem="HotelDtoModel" Property="Rate" Title="Рейтинг" Width="200px" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    private IEnumerable<HotelDtoModel> Hotels { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var requestUri = new Uri("https://localhost:5002/Hotels/all");
+
+        var httpResponse = await HttpClient.GetAsync(requestUri);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            Hotels = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<HotelDtoModel>>();
+        }
+    }
+
+}

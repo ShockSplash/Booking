@@ -1,0 +1,42 @@
+@page "/account/bookings"
+@using BlazorClient.ClientModels
+@attribute [Authorize]
+@inject HttpClient HttpClient
+<h3>Мои бронирования</h3>
+
+@if (MyBookigns is null)
+{
+    <h3>У вас нет забронированных номеров</h3>
+}
+else
+{
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                    Data="@MyBookigns" TItem="GetBookingsByUserResponse" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="Hotel.Name" Filterable="false" Title="Название отеля" Frozen="true" Width="120px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="Hotel.HotelCity" Title="Город" Frozen="true" Width="160px" />
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="Hotel.Rate" Title="Рейтинг" Width="160px"/>
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="RoomInfo.Seats" Title="Количество мест" Width="200px" />
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="RoomInfo.RoomInfo.PricePerDay" Title="Цена за день" Width="200px" />
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="BeginDateNormalized" Title="Дата заезда" Width="200px" />
+            <RadzenDataGridColumn TItem="GetBookingsByUserResponse" Property="EndDateNormalized" Title="Дата выезда" Width="200px" />
+        </Columns>
+    </RadzenDataGrid>
+}
+
+
+@code {
+    private GetBookingsByUserResponse[] MyBookigns;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var requestUri = new Uri($"https://localhost:5002/Booking");
+
+        var httpResponse = await HttpClient.GetAsync(requestUri);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            MyBookigns = await httpResponse.Content.ReadFromJsonAsync<GetBookingsByUserResponse[]>();
+        }
+    }
+}

@@ -1,0 +1,69 @@
+@page "/hotels/{CityName}/{Seats:int}/{StartDate:datetime}/{EndDate:datetime}"
+@using BlazorClient.ClientModels
+@using global::Booking.Shared.Models
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+
+<RadzenText TextStyle="TextStyle.H3" TagName="TagName.H1" Class="my-4">
+    Лучшие отели
+</RadzenText>
+<RadzenText TextStyle="TextStyle.Body1" Class="my-4">
+    Заброинруйте отель с 10% скидкой прям сейчас.
+</RadzenText>
+
+@{
+    if (_hotels != null)
+    {
+        <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                        Data="@_hotels" TItem="HotelDtoModel" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or"
+                        CellClick="OnItemClicked">
+            <Columns>
+                <RadzenDataGridColumn TItem="HotelDtoModel" Property="HotelCity" Title="Город" Width="160px"/>
+                <RadzenDataGridColumn TItem="HotelDtoModel" Property="Name" Title="Название отеля" Frozen="true" Width="160px" />
+                 <RadzenDataGridColumn TItem="HotelDtoModel" Property="Rate" Title="Рейтинг" Frozen="true" Width="160px" />
+            </Columns>
+
+        </RadzenDataGrid>       
+    }
+    else
+    {
+        <h2>Ничего не нашлось, попробуйте изменить параметры поиска</h2>
+    }
+}
+@code {
+    
+    private List<HotelDtoModel> _hotels;
+    
+    [Parameter]
+    public string CityName {get; set;}
+    
+    [Parameter]
+    public int Seats {get; set;}
+    
+    [Parameter]
+    public DateTime StartDate {get; set;}
+    
+    [Parameter]
+    public DateTime EndDate {get; set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        var requestUri = new Uri($"https://localhost:5002/Hotels?City={CityName}&Seats={Seats}&StartDate={StartDate}&EndDate={EndDate}");
+
+        var httpResponse = await HttpClient.GetAsync(requestUri);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            var response = await httpResponse.Content.ReadFromJsonAsync<GetHotelsListResponse>();
+            _hotels = response.Hotels.ToList();
+        }
+    }
+
+    private void OnItemClicked(DataGridCellMouseEventArgs<HotelDtoModel> parameters)
+    {
+        NavigationManager.NavigateTo($"hotel/{parameters.Data.Id}/{Seats}/{StartDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}/{EndDate.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)}");
+    }
+
+}

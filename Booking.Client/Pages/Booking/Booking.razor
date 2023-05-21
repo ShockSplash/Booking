@@ -1,0 +1,151 @@
+@page "/room/{id:guid}/booking/{StartDate:datetime}/{EndDate:datetime}"
+@using Microsoft.AspNetCore.Components
+@using BlazorClient.ClientModels
+@using System.Globalization
+@using System.Net.Http.Headers
+@using System.Text
+@using Newtonsoft.Json
+@attribute [Authorize]
+
+@inject HttpClient HttpClient
+
+<h3>Бронирование</h3>
+@{
+    if (IsSuccess != null)
+    {
+        if (IsSuccess.Value)
+        {
+            <RadzenAlert  AllowClose="false" AlertStyle="AlertStyle.Success" Variant="Variant.Flat" Shade="Shade.Lighter">
+                Вы успешно забронировали комнату
+            </RadzenAlert>
+        }
+        else
+        {
+            <RadzenAlert  AllowClose="false" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Shade="Shade.Lighter">
+                Произошла ошибка при бронировании комнаты
+            </RadzenAlert>
+        }
+    }}
+
+<RadzenTemplateForm Data="@Request" Submit="@(async (BookRequest request) => { await SubmitAsync(request); })">
+    <RadzenRow Gap="2rem" Class="rz-p-0 rz-p-lg-4">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack>
+                <RadzenFieldset Text="Данные по оплате">
+                    <RadzenStack Gap="1rem">
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Название банка"/>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenTextBox Style="width: 100%;" Name="BankName"/>
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Номер карты"/>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenTextBox Style="width: 100%;" Name="CardNr"/>
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Срок действия карты"/>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenDatePicker Style="width: 100%;" @bind-Value="@FakeDate" Name="ExpiryDate"/>
+                            </RadzenColumn>
+                        </RadzenRow>
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="Держатель карты"/>
+                            </RadzenColumn>
+                            <RadzenColumn Size="12" SizeMD="8">
+                                <RadzenTextBox  Style="width: 100%;" Name="CardHolder"/>
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                </RadzenFieldset>
+                <RadzenFieldset Text="Данные о брони">
+                    <RadzenStack Gap="1rem">
+                        <RadzenRow AlignItems="AlignItems.Center">
+                            <RadzenColumn Size="12" SizeMD="4">
+                                <RadzenLabel Text="@GetDescription()" />
+                            </RadzenColumn>
+                        </RadzenRow>
+                    </RadzenStack>
+                </RadzenFieldset>
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
+        @{
+            if (IsSuccess == null || !IsSuccess.Value)
+            {
+                <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Забронировать"/>
+            }
+        }
+    </RadzenStack>
+</RadzenTemplateForm>
+
+@code {
+    
+    private DateTimeOffset FakeDate { get; set; }
+
+    private GetInfoByRoomResponse Room { get; set; }
+
+    private BookRequest Request = new BookRequest();
+    
+    [Parameter]
+    public DateTime StartDate {get; set;}
+    
+    [Parameter]
+    public DateTime EndDate {get; set;}
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private bool? IsSuccess = null; 
+
+    async Task SubmitAsync(BookRequest request)
+    {
+        request.RoomId = Id;
+        request.StartDate = StartDate;
+        request.EndDate = EndDate;
+        HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var jsonString = JsonConvert.SerializeObject(request);
+        var jsonContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+        var response = await HttpClient.PostAsync("https://localhost:5002/Booking", jsonContent);
+
+        if (response.IsSuccessStatusCode)
+        {
+            IsSuccess = true;
+        }
+        else
+        {
+            IsSuccess = false;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var requestUri = new Uri($"https://localhost:5002/Room?RoomId={Id}");
+
+        var httpResponse = await HttpClient.GetAsync(requestUri);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            Room = await httpResponse.Content.ReadFromJsonAsync<GetInfoByRoomResponse>();
+        }
+    }
+
+    private string GetDescription()
+    {
+        return Room != null ? $"Название отеля: {Room.HotelName}\n Описание комнаты: {Room.RoomDescription}" +
+                              $" \n Цена за ночь: {Room.PricePerDay}руб \n Количество кроватей в номере: {Room.Seats}" +
+                              $" \n Город: {Room.City} \n C {StartDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)} По {EndDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}" : string.Empty;
+    }
+}

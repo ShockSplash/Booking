@@ -10,8 +10,6 @@ namespace Booking.DataLayer.Entities
 
         public Guid UserId { get; init; }
 
-        public User.User User { get; init; }
-
         public Guid RoomId { get; init; }
 
         public Room Room { get; init; }
